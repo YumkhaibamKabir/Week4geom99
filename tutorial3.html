@@ -1,0 +1,92 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>tutorial.point</title>
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.28/"></script>
+  <script>
+
+  require([
+    "esri/config",
+    "esri/Map",
+    "esri/views/MapView",
+
+    "esri/Graphic",
+    "esri/layers/GraphicsLayer"
+
+    ], function(esriConfig,Map, MapView, Graphic, GraphicsLayer) {
+
+  esriConfig.apiKey = "AAPK59a4225559cb4259a021352c45b03323yeqy5fzdJX1Czyz3kEEV-1xcs3MpDPpRI6s5tO3oE1TkcmerAOqLOdQn0GerMrwS";
+
+  const map = new Map({
+    basemap: "arcgis/topographic" // basemap styles service
+  });
+
+  const view = new MapView({
+    map: map,
+    center: [ 55.16829218162887,25.06888144135895], //Longitude, latitude(modified)
+    zoom: 12.5,
+    container: "viewDiv"
+ });
+
+ const graphicsLayer = new GraphicsLayer();
+ map.add(graphicsLayer);
+
+ const point = { //Create a point( modified the lat long)
+    type: "point",
+    longitude:55.13134409400004, 
+    latitude: 25.12194543268118
+ };
+ const simpleMarkerSymbol = {
+    type: "simple-marker",
+    color: [255, 0, 0],  // Red( changed from default)
+    outline: {
+        color: [0, 0, 255], // blue (changed from default)
+        width: 5 // (change from default settings)
+    }
+ };
+
+ const pointGraphic = new Graphic({
+    geometry: point,
+    symbol: simpleMarkerSymbol
+ });
+ 
+ graphicsLayer.add(pointGraphic);
+ const polyline = {
+    type: "polyline",
+    paths: [
+        [55.13134409400004, 25.12194543268118], //Longitude, latitude modified
+        [55.251090123008844, 25.084526253751218],  
+        [55.210137838281156,25.061408433757013],
+        [55.199582563598796,25.021314093095068]  
+    ]
+ };
+ const simpleLineSymbol = {
+    type: "simple-line",
+    color: [255, 0, 255], // magenta modified
+    width: 4 // modified
+ };
+
+ const polylineGraphic = new Graphic({
+    geometry: polyline,
+    symbol: simpleLineSymbol
+ });
+ graphicsLayer.add(polylineGraphic);
+
+ });
+
+</script>
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>
