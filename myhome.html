@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <title>Palm Jumeirah,Dubai</title>
+    <title>Displaying 2D Map</title>
           <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
         <script src="https://js.arcgis.com/4.28/"></script>
     <style>
@@ -26,8 +26,8 @@
         });
         const view = new MapView({
           map: map,
-          center: [55.13134409400004, 25.12194543268118], // Longitude, latitude(modified)
-          zoom: 12, // Zoom level(modified)
+          center: [-118.80500,34.02700], // Longitude, latitude
+          zoom: 13, // Zoom level
           container: "viewDiv" // Div element
         });
       });  
