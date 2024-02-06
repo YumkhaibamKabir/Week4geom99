@@ -20,8 +20,9 @@
       "esri/Map",
       "esri/views/MapView",
       "esri/Graphic",
-      "esri/layers/GraphicsLayer"
-    ], function(esriConfig, Map, MapView, Graphic, GraphicsLayer) {
+      "esri/layers/GraphicsLayer",
+      "esri/widgets/ScaleBar"
+    ], function(esriConfig, Map, MapView, Graphic, GraphicsLayer, ScaleBar) {
   
       esriConfig.apiKey = "AAPK59a4225559cb4259a021352c45b03323yeqy5fzdJX1Czyz3kEEV-1xcs3MpDPpRI6s5tO3oE1TkcmerAOqLOdQn0GerMrwS";
   
@@ -67,6 +68,14 @@
       });
   
       graphicsLayer.add(multipointGraphic);
+      const scaleBar = new ScaleBar({
+        view: view,
+        unit: "metric"
+      });
+      const myUI = view.ui; // This is a property of the MapView object 
+      myUI.add(scaleBar, {   //ui= user interface
+        position: "bottom-left" // THIS ADDS TO WIDGET TO BOTTOM LEFT CORNER
+      });
   
  const polyline = {
     type: "polyline",
