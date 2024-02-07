@@ -21,11 +21,14 @@
       "esri/views/MapView",
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
-      "esri/widgets/ScaleBar"
-    ], function(esriConfig, Map, MapView, Graphic, GraphicsLayer, ScaleBar) {
+      "esri/widgets/ScaleBar",
+      "esri/widgets/Search",
+      "esri/PopupTemplate"
+    ], function(esriConfig, Map, MapView, Graphic, GraphicsLayer, ScaleBar, Search,PopupTemplate) {
   
       esriConfig.apiKey = "AAPK59a4225559cb4259a021352c45b03323yeqy5fzdJX1Czyz3kEEV-1xcs3MpDPpRI6s5tO3oE1TkcmerAOqLOdQn0GerMrwS";
-  
+ 
+      // source: https://developers.arcgis.com/javascript/latest/sample-code,the development of an idea of creating a story is owned by Kabir. 
       const map = new Map({
         basemap: "arcgis-navigation" // basemap styles modified
       });
@@ -43,7 +46,7 @@
       const multipoint = {
         type: "multipoint", //modified from default
         points: [
-          [55.13134409400004, 25.12194543268118], // Longitude, latitude (modified)
+          [55.161256,25.083127], // Longitude, latitude (modified)
           [55.271787, 25.049367],
           [55.253950, 25.024809],
           [55.199582, 25.021314]
@@ -60,9 +63,13 @@
       };
   
       const multipointGraphic = new Graphic({
-        geometry: multipoint,
-        symbol: simpleMarkerSymbol
-      });
+      geometry: multipoint,
+      symbol: simpleMarkerSymbol,
+      popupTemplate: new PopupTemplate({
+        title: "Dubai Golfscape Guide",
+        content: "emphasizing both the golfing experience and the picturesque surroundings of the course in Dubai, and comprehensive guide to navigating and exploring the golfing terrain and its beautiful vistas."
+      })
+    });
   
       graphicsLayer.add(multipointGraphic);
       const scaleBar = new ScaleBar({
@@ -77,10 +84,7 @@
  const polyline = {
     type: "polyline",
     paths: [
-        [55.131344, 25.121945], //Longitude, latitude modified
-        [55.130326,25.120316],
-        [ 55.152330,25.104402],
-        [ 55.154255,25.102505],
+        [55.161256,25.083127],
         [55.271787,25.049367], 
         [55.253950,25.024809],
         [55.199582,25.021314]  
@@ -98,6 +102,14 @@
  });
  graphicsLayer.add(polylineGraphic);
 
+ const searchWidget = new Search({
+        view: view
+      });
+
+      // Adding the Search widget to the top right corner of the view
+      view.ui.add(searchWidget, {
+        position: "top-right"
+      });
  });
     </script>
   </head>
