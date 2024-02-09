@@ -64,14 +64,49 @@
   
       const multipointGraphic = new Graphic({
       geometry: multipoint,
-      symbol: simpleMarkerSymbol,
-      popupTemplate: new PopupTemplate({
-        title: "Dubai Golfscape Guide",
-        content: "emphasizing both the golfing experience and the picturesque surroundings of the course in Dubai, and comprehensive guide to navigating and exploring the golfing terrain and its beautiful vistas."
-      })
+      symbol: simpleMarkerSymbol 
     });
-  
-      graphicsLayer.add(multipointGraphic);
+
+    //ADDING POP-UP DESCRIPTION FOR EACH Point
+    const popups = [
+        {
+          title: "Golf Course 1",
+          content: " Emirates Golf Club, Dubai."
+        },
+        {
+          title: "Golf Course 2",
+          content: "Arabian Ranches Golf Club."
+        },
+        {
+          title: "Golf Course 3",
+          content: "Akoya By Damac Trump International Golf Club."
+        },
+        {
+          title: "Golf Course 4",
+          content: " Jumeirah Golf Club."
+        }
+      ];
+
+// i took this idea from my first assignment which is google API Documentation.
+      for (let i = 0; i < multipoint.points.length; i++) { // it iterates over each point in the multipoint array.
+        const popupTemplate = new PopupTemplate({
+          title: popups[i].title,
+          content: popups[i].content
+        });
+
+        const multipointGraphic = new Graphic({
+          geometry: {
+            type: "point",
+            longitude: multipoint.points[i][0],
+            latitude: multipoint.points[i][1]
+          },
+          
+          symbol: simpleMarkerSymbol,
+          popupTemplate: popupTemplate
+        });
+       graphicsLayer.add(multipointGraphic);
+      }
+      
       const scaleBar = new ScaleBar({
         view: view,
         unit: "metric"
@@ -110,11 +145,12 @@
       view.ui.add(searchWidget, {
         position: "top-right"
       });
+  
  });
+
     </script>
   </head>
   <body>
     <div id="viewDiv"></div>
   </body>
   </html>
-  
