@@ -1,0 +1,176 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>A Special Trip on The Eve Of Valentine's Day</title>
+    <style>
+      html, body, #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.28/"></script>
+    <script>
+  
+    require([
+      "esri/config",
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/Graphic",
+      "esri/layers/GraphicsLayer",
+      "esri/widgets/ScaleBar",
+      "esri/widgets/Search",
+      "esri/PopupTemplate"
+    ], function(esriConfig, Map, MapView, Graphic, GraphicsLayer, ScaleBar, Search, PopupTemplate) {
+  
+      esriConfig.apiKey = "AAPK59a4225559cb4259a021352c45b03323yeqy5fzdJX1Czyz3kEEV-1xcs3MpDPpRI6s5tO3oE1TkcmerAOqLOdQn0GerMrwS";
+ 
+      const map = new Map({
+        basemap: "arcgis-navigation"
+      });
+  
+      const view = new MapView({
+        map: map,
+        center: [ -79.40066373024322, 43.6431143874062],
+        zoom: 13.8,
+        container: "viewDiv"
+      });
+  
+      const graphicsLayer = new GraphicsLayer();
+      map.add(graphicsLayer);
+  
+      const multipoint = {
+        type: "multipoint",
+        points: [
+          [-79.37413057839545,43.65444346109047],
+          [-79.41200660143095,43.63437074480933],
+          [-79.38698172047437,43.64271362349561],
+          [-79.3614504477359,43.62631222891241]
+        ]
+      };
+  
+      const simpleMarkerSymbol = {
+        type: "simple-marker",
+        color: [255,0,255],
+        outline: {
+          color: [34,139,34],
+          width: 1
+        }
+      };
+//ADDING POP-UP DESCRIPTION FOR EACH DESTINATION
+      const popups = [
+        {
+          title: "Visiting Restaurant",
+          content: "George Brown Restaurant."
+        },
+        {
+          title: "Visiting a SPA",
+          content: "Guerlain Spa at Hotel X Toronto."
+        },
+        {
+          title: "Visiting An Iconic Tower",
+          content: "CNN Tower, Toronto."
+        },
+        {
+          title: "Visiting Park",
+          content: "Algonquin Island Park."
+        }
+      ];
+
+      for (let i = 0; i < multipoint.points.length; i++) {
+        const popupTemplate = new PopupTemplate({
+          title: popups[i].title,
+          content: popups[i].content
+        });
+
+        const multipointGraphic = new Graphic({
+          geometry: {
+            type: "point",
+            longitude: multipoint.points[i][0],
+            latitude: multipoint.points[i][1]
+          },
+          symbol: simpleMarkerSymbol,
+          popupTemplate: popupTemplate
+        });
+
+        graphicsLayer.add(multipointGraphic);
+      }
+      
+      const polyline = {
+        type: "polyline",
+        paths: [
+          [-79.374130,43.654443],
+          [-79.412006,43.634370],
+          [-79.386981,43.642713],
+          [-79.3614504477359,43.62631222891241]
+        ]
+      };
+      
+
+      const simpleLineSymbol = {
+        type: "simple-line",
+        color: [34,139,34], //modified 
+        width: 3.5 // modified
+      };
+
+      const polylineGraphic = new Graphic({
+        geometry: polyline,
+        symbol: simpleLineSymbol
+      });
+
+      graphicsLayer.add(polylineGraphic);
+ // Creating a polygon geometry for valentine theme
+ const polygon = {
+    type: "polygon",
+    rings: [
+        [ -79.36189299703933,43.62717528600645], //Longitude, latitude
+        [-79.3629766094936,43.62569195962087],  
+        [-79.36182325963881,43.62491971508344],  
+        [ -79.36016029003088,43.62599145524972]   
+          
+    ]
+ };
+
+ const simpleFillSymbol = {
+    type: "simple-fill",
+    color: [34,139,34, 0.5],  // green, opacity 50%
+    outline: {
+        color: [ 0, 0, 255],
+        width: 0.5
+    }
+ };
+
+ const polygonGraphic = new Graphic({
+    geometry: polygon,
+    symbol: simpleFillSymbol,
+
+ });
+ graphicsLayer.add(polygonGraphic);
+
+      const scaleBar = new ScaleBar({
+        view: view,
+        unit: "metric"
+      });
+
+      view.ui.add(scaleBar, {
+        position: "bottom-right"
+      });
+
+      const searchWidget = new Search({
+        view: view
+      });
+
+      view.ui.add(searchWidget, {
+        position: "top-right"
+      });
+      
+    });
+    </script>
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
